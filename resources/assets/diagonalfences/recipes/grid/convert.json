@@ -1,0 +1,20 @@
+[
+    {
+        "ingredientPattern": "F",
+        "ingredients": {
+            "F": { "type": "block", "code": "game:woodenfence-*-ew-free", "name": "wood" }
+        },
+        "width": 1,
+        "height": 1,
+        "output": { "type": "block", "code": "diagonalfences:woodenfence-{wood}-ne_sw-free" }
+    },
+    {
+        "ingredientPattern": "F",
+        "ingredients": {
+            "F": { "type": "block", "code": "diagonalfences:woodenfence-*-ne_sw-free", "name": "wood" }
+        },
+        "width": 1,
+        "height": 1,
+        "output": { "type": "block", "code": "game:woodenfence-{wood}-ew-free" }
+    }
+]
