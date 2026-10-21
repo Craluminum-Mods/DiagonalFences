@@ -42,7 +42,7 @@ namespace DiagonalFences
 
         public static string GetName(CollectibleObject collectible)
         {
-            return Lang.GetMatching(collectible?.Attributes?["name"]?.AsString()) + " (" + Lang.Get("diagonalfences:diagonal") + ")";
+            return Lang.GetMatching(collectible?.Attributes?["name"]?.AsString());
         }
 
         // public override string GetPlacedBlockInfo(IWorldAccessor world, BlockPos pos, IPlayer forPlayer)
@@ -60,13 +60,13 @@ namespace DiagonalFences
 
         public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1f)
         {
-            Block block = world.BlockAccessor.GetBlock(new AssetLocation(Attributes?["defaultDrop"]?.AsString()));
+            Block block = world.BlockAccessor.GetBlock(new AssetLocation(Attributes?["vanillaDrop"]?.AsString()));
             return new ItemStack[1] { new ItemStack(block) };
         }
 
         public override ItemStack OnPickBlock(IWorldAccessor world, BlockPos pos)
         {
-            return new ItemStack(world.BlockAccessor.GetBlock(new AssetLocation(Attributes?["defaultDrop"]?.AsString())));
+            return new ItemStack(world.BlockAccessor.GetBlock(new AssetLocation(Attributes?["vanillaDrop"]?.AsString())));
         }
     }
 }

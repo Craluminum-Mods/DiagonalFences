@@ -10,6 +10,7 @@ public class Core : ModSystem
     {
         base.Start(api);
         api.RegisterBlockClass("BlockDiagonalFence", typeof(BlockDiagonalFence));
+        api.RegisterBlockBehaviorClass("DiagonalFence", typeof(BlockBehaviorDiagonalFence));
         api.World.Logger.Event("started 'Diagonal Fences' mod");
     }
 }

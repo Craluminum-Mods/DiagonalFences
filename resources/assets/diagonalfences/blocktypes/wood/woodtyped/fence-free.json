@@ -14,14 +14,19 @@
     ],
     "attributes": {
         "isFence": true,
+        "fenceConnect": {
+            "north": true,
+            "east": true,
+            "south": true,
+            "west": true
+        },
         "handbook": {
-            "groupBy": [
-                "diagonalfences:woodenfence-*"
-            ]
+            "exclude": true
         },
         "name": "game:block-woodenfence-{wood}-ew-*",
         "defaultCardinal": "game:woodenfence-{wood}-empty-free",
-        "defaultDrop": "diagonalfences:woodenfence-{wood}-ne_sw-free"
+        "defaultDrop": "diagonalfences:woodenfence-{wood}-ne_sw-free",
+        "vanillaDrop": "game:woodenfence-{wood}-ew-free"
     },
     "variantgroups": [
         {
@@ -280,1173 +285,1370 @@
         {
             "code": "cover",
             "states": [
-                "free"
+                "free",
+                "snow"
             ]
         }
     ],
-    "creativeinventory": {
-        "general": [
-            "woodenfence-*-ne_sw-free"
-        ],
-        "decorative": [
-            "woodenfence-*-ne_sw-free"
-        ]
-    },
     "shape": {
-        "base": "block/wood/fence/diagonal",
+        "baseByType": {
+            "*-free": "block/wood/fence/diagonal",
+            "*-snow": "block/wood/fence/snow-diagonal"
+        },
         "selectiveElementsByType": {
             "*-ne-*": [
-                "Center/NE/*"
+                "Center/NE/*",
+                "Center/Center-snow"
             ],
             "*-es-*": [
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-sw-*": [
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-nw-*": [
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne-*": [
                 "Center/N/*",
-                "Center/NE/*"
+                "Center/NE/*",
+                "Center/Center-snow"
             ],
             "*-n_es-*": [
                 "Center/N/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-n_sw-*": [
                 "Center/N/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_nw-*": [
                 "Center/N/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e-*": [
                 "Center/NE/*",
-                "Center/E/*"
+                "Center/E/*",
+                "Center/Center-snow"
             ],
             "*-ne_es-*": [
                 "Center/NE/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-ne_s-*": [
                 "Center/NE/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-ne_sw-*": [
                 "Center/NE/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_w-*": [
                 "Center/NE/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_nw-*": [
                 "Center/NE/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es-*": [
                 "Center/E/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-e_sw-*": [
                 "Center/E/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-e_nw-*": [
                 "Center/E/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_s-*": [
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-es_sw-*": [
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-es_w-*": [
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-es_nw-*": [
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-s_sw-*": [
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-s_nw-*": [
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-sw_w-*": [
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-sw_nw-*": [
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-w_nw-*": [
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e-*": [
                 "Center/N/*",
                 "Center/NE/*",
-                "Center/E/*"
+                "Center/E/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es-*": [
                 "Center/N/*",
                 "Center/NE/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s-*": [
                 "Center/N/*",
                 "Center/NE/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es-*": [
                 "Center/N/*",
                 "Center/E/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-n_e_sw-*": [
                 "Center/N/*",
                 "Center/E/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s-*": [
                 "Center/N/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-n_es_sw-*": [
                 "Center/N/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_w-*": [
                 "Center/N/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_es_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_s_sw-*": [
                 "Center/N/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_s_nw-*": [
                 "Center/N/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_sw_w-*": [
                 "Center/N/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_sw_nw-*": [
                 "Center/N/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_w_nw-*": [
                 "Center/N/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es-*": [
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s-*": [
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_sw-*": [
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s-*": [
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_sw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_w-*": [
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_sw-*": [
                 "Center/NE/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_w-*": [
                 "Center/NE/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_nw-*": [
                 "Center/NE/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_sw_w-*": [
                 "Center/NE/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_sw_nw-*": [
                 "Center/NE/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_w_nw-*": [
                 "Center/NE/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s-*": [
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-e_es_sw-*": [
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_w-*": [
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-e_es_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_s_sw-*": [
                 "Center/E/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-e_s_nw-*": [
                 "Center/E/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_sw_w-*": [
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-e_sw_nw-*": [
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_w_nw-*": [
                 "Center/E/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_s_sw-*": [
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-es_s_w-*": [
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-es_s_nw-*": [
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_sw_w-*": [
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-es_sw_nw-*": [
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_w_nw-*": [
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-s_sw_w-*": [
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-s_sw_nw-*": [
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-s_w_nw-*": [
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-sw_w_nw-*": [
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/ES/*"
+                "Center/ES/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_sw_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_sw_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_w_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_sw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_w-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_s_sw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_s_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_sw_w-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_e_sw_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_w_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_sw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_w-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_sw_w-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_es_sw_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_w_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_s_sw_w-*": [
                 "Center/N/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_s_sw_nw-*": [
                 "Center/N/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_s_w_nw-*": [
                 "Center/N/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_sw_w_nw-*": [
                 "Center/N/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_sw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_sw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_sw_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_sw_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_w_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_sw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_w-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_sw_w-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_sw_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_w_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_sw_w-*": [
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_sw_nw-*": [
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_w_nw-*": [
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_sw_w_nw-*": [
                 "Center/NE/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_sw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_w-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_sw_w-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-e_es_sw_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_w_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_s_sw_w-*": [
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-e_s_sw_nw-*": [
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_s_w_nw-*": [
                 "Center/E/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_sw_w_nw-*": [
                 "Center/E/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_s_sw_w-*": [
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-es_s_sw_nw-*": [
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_s_w_nw-*": [
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_sw_w_nw-*": [
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/S/*"
+                "Center/S/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_sw_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_sw_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_w_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_sw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_sw_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_sw_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_w_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_sw_w-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_sw_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_w_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_sw_w_nw-*": [
                 "Center/N/*",
                 "Center/NE/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_sw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_w-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_sw_w-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_sw_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_w_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_s_sw_w-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_e_s_sw_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_s_w_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_sw_w_nw-*": [
                 "Center/N/*",
                 "Center/E/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_sw_w-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_sw_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_w_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_sw_w_nw-*": [
                 "Center/N/*",
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_sw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_sw_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_sw_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_w_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_sw_w-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_sw_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_w_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_sw_w_nw-*": [
                 "Center/NE/*",
                 "Center/E/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_sw_w-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_sw_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_w_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_sw_w_nw-*": [
                 "Center/NE/*",
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_s_sw_w_nw-*": [
                 "Center/NE/*",
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_sw_w-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_sw_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_w_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_sw_w_nw-*": [
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_s_sw_w_nw-*": [
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-es_s_sw_w_nw-*": [
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s_sw-*": [
                 "Center/N/*",
@@ -1454,7 +1656,8 @@
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/SW/*"
+                "Center/SW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s_w-*": [
                 "Center/N/*",
@@ -1462,7 +1665,8 @@
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s_nw-*": [
                 "Center/N/*",
@@ -1470,7 +1674,8 @@
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/S/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_sw_w-*": [
                 "Center/N/*",
@@ -1478,7 +1683,8 @@
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_sw_nw-*": [
                 "Center/N/*",
@@ -1486,7 +1692,8 @@
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_w_nw-*": [
                 "Center/N/*",
@@ -1494,7 +1701,8 @@
                 "Center/E/*",
                 "Center/ES/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_sw_w-*": [
                 "Center/N/*",
@@ -1502,7 +1710,8 @@
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_sw_nw-*": [
                 "Center/N/*",
@@ -1510,7 +1719,8 @@
                 "Center/E/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_w_nw-*": [
                 "Center/N/*",
@@ -1518,7 +1728,8 @@
                 "Center/E/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_sw_w_nw-*": [
                 "Center/N/*",
@@ -1526,7 +1737,8 @@
                 "Center/E/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_sw_w-*": [
                 "Center/N/*",
@@ -1534,7 +1746,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_sw_nw-*": [
                 "Center/N/*",
@@ -1542,7 +1755,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_w_nw-*": [
                 "Center/N/*",
@@ -1550,7 +1764,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_sw_w_nw-*": [
                 "Center/N/*",
@@ -1558,7 +1773,8 @@
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1566,7 +1782,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_sw_w-*": [
                 "Center/N/*",
@@ -1574,7 +1791,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_sw_nw-*": [
                 "Center/N/*",
@@ -1582,7 +1800,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_w_nw-*": [
                 "Center/N/*",
@@ -1590,7 +1809,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_sw_w_nw-*": [
                 "Center/N/*",
@@ -1598,7 +1818,8 @@
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1606,7 +1827,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_es_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1614,7 +1836,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_sw_w-*": [
                 "Center/NE/*",
@@ -1622,7 +1845,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/W/*"
+                "Center/W/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_sw_nw-*": [
                 "Center/NE/*",
@@ -1630,7 +1854,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_w_nw-*": [
                 "Center/NE/*",
@@ -1638,7 +1863,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_sw_w_nw-*": [
                 "Center/NE/*",
@@ -1646,7 +1872,8 @@
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_s_sw_w_nw-*": [
                 "Center/NE/*",
@@ -1654,7 +1881,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_es_s_sw_w_nw-*": [
                 "Center/NE/*",
@@ -1662,7 +1890,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-e_es_s_sw_w_nw-*": [
                 "Center/E/*",
@@ -1670,7 +1899,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s_sw_nw-*": [
                 "Center/N/*",
@@ -1679,7 +1909,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/SW/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s_w_nw-*": [
                 "Center/N/*",
@@ -1688,7 +1919,8 @@
                 "Center/ES/*",
                 "Center/S/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_sw_w_nw-*": [
                 "Center/N/*",
@@ -1697,7 +1929,8 @@
                 "Center/ES/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1706,7 +1939,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_es_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1715,7 +1949,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_e_es_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1724,7 +1959,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-ne_e_es_s_sw_w_nw-*": [
                 "Center/NE/*",
@@ -1733,7 +1969,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ],
             "*-n_ne_e_es_s_sw_w_nw-*": [
                 "Center/N/*",
@@ -1743,7 +1980,8 @@
                 "Center/S/*",
                 "Center/SW/*",
                 "Center/W/*",
-                "Center/NW/*"
+                "Center/NW/*",
+                "Center/Center-snow"
             ]
         }
     },
@@ -1753,6 +1991,9 @@
     },
     "blockmaterial": "Wood",
     "textures": {
+        "snowcover": {
+            "base": "game:block/liquid/snow/normal1"
+        },
         "horizontal": {
             "baseByType": {
                 "woodenfence-aged-*": "game:block/wood/debarked/veryaged",
@@ -2008,7 +2249,7 @@
             "y1": 0,
             "z1": 0.3125,
             "x2": 0.6875,
-            "y2": 1.0625,
+            "y2": 1.3125,
             "z2": 0.6875
         },
         {

@@ -13,6 +13,7 @@ public static class GeneralExtensions
         var toFence = new Fence(fromBlock, pos, world);
         if (toFence.Block == null) return false;
         if (fromBlock is BlockFenceGate or BlockFenceGateRoughHewn) return false;
+        if (world.BlockAccessor.GetBlock(pos).Id == toFence.Block.Id) return false;
 
         world.BlockAccessor.SetBlock(toFence.Block.BlockId, pos);
         return true;
@@ -48,18 +49,32 @@ public static class GeneralExtensions
         return world.BlockAccessor.GetBlock(targetPos) is BlockFence or BlockDiagonalFence or BlockFenceGate or BlockFenceGateRoughHewn;
     }
 
-    public static string GetFenceCode(this BlockPos centerPos, IWorldAccessor world, out bool hasIntercardinalDirections)
+    public static string GetFenceCode(this BlockPos centerPos, IWorldAccessor world, BlockFence vanillaFence, out bool hasIntercardinalDirections)
     {
         List<string> matchedDirections = new();
 
-        if (IsFenceOrGate(centerPos.NorthCopy(), world)) matchedDirections.Add("n");
-        if (IsFenceOrGate(centerPos.EastCopy().NorthCopy(), world)) matchedDirections.Add("ne");
-        if (IsFenceOrGate(centerPos.EastCopy(), world)) matchedDirections.Add("e");
-        if (IsFenceOrGate(centerPos.EastCopy().SouthCopy(), world)) matchedDirections.Add("es");
-        if (IsFenceOrGate(centerPos.SouthCopy(), world)) matchedDirections.Add("s");
-        if (IsFenceOrGate(centerPos.WestCopy().SouthCopy(), world)) matchedDirections.Add("sw");
-        if (IsFenceOrGate(centerPos.WestCopy(), world)) matchedDirections.Add("w");
-        if (IsFenceOrGate(centerPos.WestCopy().NorthCopy(), world)) matchedDirections.Add("nw");
+        bool n = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.NORTH);
+        bool e = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.EAST);
+        bool s = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.SOUTH);
+        bool w = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.WEST);
+        bool ne = IsFenceOrGate(centerPos.EastCopy().NorthCopy(), world);
+        bool es = IsFenceOrGate(centerPos.EastCopy().SouthCopy(), world);
+        bool sw = IsFenceOrGate(centerPos.WestCopy().SouthCopy(), world);
+        bool nw = IsFenceOrGate(centerPos.WestCopy().NorthCopy(), world);
+
+        //Checks are made in order for two reasons:
+        // - block variant names
+        // - Preferring L shaped instead of diagonal
+
+        if (n) matchedDirections.Add("n");
+        if (!n && !e && ne) matchedDirections.Add("ne");
+        if (e) matchedDirections.Add("e");
+        if (!e && !s && es) matchedDirections.Add("es");
+        if (s) matchedDirections.Add("s");
+        if (!s && !w && sw) matchedDirections.Add("sw");
+        if (w) matchedDirections.Add("w");
+        if (!n && !w && nw) matchedDirections.Add("nw");
+
 
         hasIntercardinalDirections = matchedDirections.Any(dir => dir.Length == 2);
 
