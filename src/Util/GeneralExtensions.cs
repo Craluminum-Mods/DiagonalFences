@@ -44,9 +44,9 @@ public static class GeneralExtensions
         };
     }
 
-    public static bool IsFenceOrGate(BlockPos targetPos, IWorldAccessor world)
+    public static bool IsFence(BlockPos targetPos, IWorldAccessor world)
     {
-        return world.BlockAccessor.GetBlock(targetPos) is BlockFence or BlockDiagonalFence or BlockFenceGate or BlockFenceGateRoughHewn;
+        return world.BlockAccessor.GetBlock(targetPos) is BlockFence or BlockDiagonalFence;
     }
 
     public static string GetFenceCode(this BlockPos centerPos, IWorldAccessor world, BlockFence vanillaFence, out bool hasIntercardinalDirections)
@@ -57,10 +57,10 @@ public static class GeneralExtensions
         bool e = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.EAST);
         bool s = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.SOUTH);
         bool w = vanillaFence.ShouldConnectAt(world, centerPos, BlockFacing.WEST);
-        bool ne = IsFenceOrGate(centerPos.EastCopy().NorthCopy(), world);
-        bool es = IsFenceOrGate(centerPos.EastCopy().SouthCopy(), world);
-        bool sw = IsFenceOrGate(centerPos.WestCopy().SouthCopy(), world);
-        bool nw = IsFenceOrGate(centerPos.WestCopy().NorthCopy(), world);
+        bool ne = IsFence(centerPos.EastCopy().NorthCopy(), world);
+        bool es = IsFence(centerPos.EastCopy().SouthCopy(), world);
+        bool sw = IsFence(centerPos.WestCopy().SouthCopy(), world);
+        bool nw = IsFence(centerPos.WestCopy().NorthCopy(), world);
 
         //Checks are made in order for two reasons:
         // - block variant names
