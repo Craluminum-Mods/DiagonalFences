@@ -18,12 +18,12 @@ namespace DiagonalFences;
 [HarmonyPatch(typeof(BlockFence), nameof(BlockFence.OnJsonTesselation))]
 public static class AddDiagonalArmsToFenceMesh
 {
-    public static void Postfix(BlockFence __instance, ref MeshData sourceMesh, Block[] chunkExtBlocks, int extIndex3d)
+    public static void Postfix(BlockFence __instance, ref MeshData sourceMesh, BlockPos pos, Block[] chunkExtBlocks, int extIndex3d)
     {
         var diagonalFence = __instance.GetBehavior<BlockBehaviorDiagonalFence>();
         if (diagonalFence == null || chunkExtBlocks == null) return;
 
-        sourceMesh = diagonalFence.WithDiagonalArms(sourceMesh, corner => chunkExtBlocks[NeighbourIndex(extIndex3d, corner)]);
+        sourceMesh = diagonalFence.WithDiagonalArms(sourceMesh, corner => chunkExtBlocks[NeighbourIndex(extIndex3d, corner)], pos);
     }
 
     // chunkExtBlocks is the chunk+1 block border, MoveIndex is filled in by the game at runtime so we cant cache it.

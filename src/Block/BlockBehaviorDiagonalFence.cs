@@ -12,7 +12,13 @@ public delegate Block NeighbourLookup(Corner corner);
 /// <summary>
 /// Lets a vanilla fence connect diagonally. The fence block itself never changes:
 /// the patches in BlockFencePatches ask this behavior for the extra arms and boxes.
-/// Patch property "armShape": the shape of one arm pointing north-east.
+/// Patch properties:
+///   "armShape": the shape of one arm pointing north-east, or a list of alternatives
+///   that each fence picks from by its position, like vanilla's random shapes.
+///   "snowArmShape" (optional): same, used instead when the fence's cover is snow. For snowy
+///   blocktypes that inherit this behavior from their snow-free one, like the rough-hewn fence.
+///   "cardinalOvershootShape" (optional): rails continuing a west connection past the centre,
+///   for fences like bamboo whose rails cross at every joint.
 /// </summary>
 public class BlockBehaviorDiagonalFence : BlockBehavior
 {
@@ -21,8 +27,11 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     public const float SelectionHeight = 1.0625f;
     public const float CollisionHeight = 1.3125f;
 
-    private AssetLocation armShapePath;
-    private readonly Dictionary<Corner, MeshData> armMeshes = new();
+    private List<AssetLocation> armShapePaths = [];
+    private List<AssetLocation> snowArmShapePaths = [];
+    private AssetLocation cardinalOvershootShapePath;
+    private readonly List<Dictionary<Corner, MeshData>> armVariants = [];
+    private readonly Dictionary<BlockFacing, MeshData> cardinalOvershootMeshes = new();
 
     public BlockBehaviorDiagonalFence(Block block) : base(block) { }
 
@@ -30,50 +39,156 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     {
         base.Initialize(properties);
 
-        string armShape = properties["armShape"].AsString();
-        if (armShape == null) return;
+        armShapePaths = ShapePaths(properties["armShape"]);
+        snowArmShapePaths = ShapePaths(properties["snowArmShape"]);
+        cardinalOvershootShapePath = ShapePath(properties["cardinalOvershootShape"].AsString());
+    }
 
-        armShapePath = AssetLocation.Create(armShape)
+    private static List<AssetLocation> ShapePaths(JsonObject shapes)
+    {
+        if (!shapes.Exists) return [];
+
+        if (!shapes.IsArray())
+        {
+            return [ShapePath(shapes.AsString())];
+        }
+
+        return shapes.AsArray()
+            .Select(shape => ShapePath(shape.AsString()))
+            .ToList();
+    }
+
+    private static AssetLocation ShapePath(string shape)
+    {
+        if (shape == null) return null;
+
+        return AssetLocation.Create(shape)
             .WithPathPrefixOnce("shapes/")
             .WithPathAppendixOnce(".json");
     }
 
     public void BuildArmMeshes(ICoreClientAPI capi)
     {
-        Shape armShape = null;
-        if (armShapePath != null)
+        foreach (AssetLocation path in ArmShapePathsForThisFence())
         {
-            armShape = Shape.TryGet(capi, armShapePath);
+            Shape armShape = LoadShape(capi, path);
+            if (armShape == null)
+            {
+                capi.Logger.Warning("[diagonalfences] {0} can't load its armShape {1}", block.Code, path);
+                continue;
+            }
+
+            armVariants.Add(TesselateArms(capi, armShape));
         }
 
-        if (armShape == null)
+        if (armVariants.Count == 0)
         {
-            capi.Logger.Warning("[diagonalfences] {0} has no usable armShape ({1}), it won't connect diagonally", block.Code, armShapePath);
+            capi.Logger.Warning("[diagonalfences] {0} has no usable armShape, it won't connect diagonally", block.Code);
             return;
         }
 
+        BuildCardinalOvershootMeshes(capi);
+    }
+
+    private List<AssetLocation> ArmShapePathsForThisFence()
+    {
+        bool isSnowCovered = block.Variant["cover"] == "snow";
+        bool hasSnowArms = snowArmShapePaths.Count > 0;
+
+        if (isSnowCovered && hasSnowArms) return snowArmShapePaths;
+        return armShapePaths;
+    }
+
+    private Dictionary<Corner, MeshData> TesselateArms(ICoreClientAPI capi, Shape armShape)
+    {
+        var arms = new Dictionary<Corner, MeshData>();
         foreach (Corner corner in Corner.All)
         {
             capi.Tesselator.TesselateShape(block, armShape, out MeshData arm, new Vec3f(0, corner.ArmRotation, 0));
-            armMeshes[corner] = arm;
+            arms[corner] = arm;
+        }
+        return arms;
+    }
+
+    private void BuildCardinalOvershootMeshes(ICoreClientAPI capi)
+    {
+        if (cardinalOvershootShapePath == null) return;
+
+        Shape overshootShape = LoadShape(capi, cardinalOvershootShapePath);
+        if (overshootShape == null)
+        {
+            capi.Logger.Warning("[diagonalfences] {0} has no usable cardinalOvershootShape ({1})", block.Code, cardinalOvershootShapePath);
+            return;
+        }
+
+        foreach (BlockFacing side in BlockFacing.HORIZONTALS)
+        {
+            capi.Tesselator.TesselateShape(block, overshootShape, out MeshData overshoot, new Vec3f(0, RotationFromWest(side), 0));
+            cardinalOvershootMeshes[side] = overshoot;
         }
     }
 
-    public MeshData WithDiagonalArms(MeshData fenceMesh, NeighbourLookup neighbourAt)
+    private static Shape LoadShape(ICoreClientAPI capi, AssetLocation path)
     {
-        bool hasArms = armMeshes.Count > 0;
+        if (path == null) return null;
+
+        return Shape.TryGet(capi, path);
+    }
+
+    // Same turns vanilla uses to point its one-sided "w" fence shape at each side
+    private static float RotationFromWest(BlockFacing side)
+    {
+        if (side == BlockFacing.NORTH) return 270;
+        if (side == BlockFacing.EAST) return 180;
+        if (side == BlockFacing.SOUTH) return 90;
+        return 0;
+    }
+
+    public MeshData WithDiagonalArms(MeshData fenceMesh, NeighbourLookup neighbourAt, BlockPos pos)
+    {
+        bool hasArms = armVariants.Count > 0;
         if (!hasArms) return fenceMesh;
 
         List<Corner> corners = ConnectedCorners(neighbourAt).ToList();
         if (corners.Count == 0) return fenceMesh;
 
+        Dictionary<Corner, MeshData> arms = ArmVariantAt(pos);
+
         // the vanilla mesh is shared by every fence of this type, so work on a copy
         MeshData mesh = fenceMesh.Clone();
         foreach (Corner corner in corners)
         {
-            mesh.AddMeshData(armMeshes[corner]);
+            mesh.AddMeshData(arms[corner]);
         }
+
+        AddCardinalOvershoot(mesh);
         return mesh;
+    }
+
+    // Picked from the position like vanilla's random shapes, so a fence always keeps the same look
+    private Dictionary<Corner, MeshData> ArmVariantAt(BlockPos pos)
+    {
+        int variant = GameMath.MurmurHash3Mod(pos.X, pos.Y, pos.Z, armVariants.Count);
+        return armVariants[variant];
+    }
+
+    // Vanilla's dead-end shapes stop their rails at the centre, so where a diagonal now joins
+    // a dead end, its rails get continued past the centre to cross the diagonal ones
+    private void AddCardinalOvershoot(MeshData mesh)
+    {
+        bool hasOvershoot = cardinalOvershootMeshes.Count > 0;
+        if (!hasOvershoot) return;
+
+        List<BlockFacing> connectedSides = BlockFacing.HORIZONTALS
+            .Where(IsConnectedTowards)
+            .ToList();
+
+        // with two sides vanilla already uses its corner shape, which crosses its own rails
+        bool isDeadEnd = connectedSides.Count == 1;
+        if (!isDeadEnd) return;
+
+        BlockFacing deadEndSide = connectedSides[0];
+        mesh.AddMeshData(cardinalOvershootMeshes[deadEndSide]);
     }
 
     public Cuboidf[] WithDiagonalBoxes(Cuboidf[] fenceBoxes, IBlockAccessor world, BlockPos pos, float height)
