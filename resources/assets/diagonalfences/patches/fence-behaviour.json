@@ -3,7 +3,10 @@
         "op": "add",
         "path": "/behaviors/-",
         "value": {
-            "name": "DiagonalFence"
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/wood/fence/diagonal-arm"
+            }
         },
         "file": "game:blocktypes/wood/woodtyped/fence-free.json"
     },
@@ -11,7 +14,10 @@
         "op": "add",
         "path": "/behaviors/-",
         "value": {
-            "name": "DiagonalFence"
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/wood/fence/snow-diagonal-arm"
+            }
         },
         "file": "game:blocktypes/wood/woodtyped/fence-snow.json"
     }
