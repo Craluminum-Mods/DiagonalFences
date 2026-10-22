@@ -31,15 +31,21 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
         base.Initialize(properties);
 
         string armShape = properties["armShape"].AsString();
-        if (armShape != null)
-        {
-            armShapePath = AssetLocation.Create(armShape).WithPathPrefixOnce("shapes/").WithPathAppendixOnce(".json");
-        }
+        if (armShape == null) return;
+
+        armShapePath = AssetLocation.Create(armShape)
+            .WithPathPrefixOnce("shapes/")
+            .WithPathAppendixOnce(".json");
     }
 
     public void BuildArmMeshes(ICoreClientAPI capi)
     {
-        Shape armShape = armShapePath == null ? null : Shape.TryGet(capi, armShapePath);
+        Shape armShape = null;
+        if (armShapePath != null)
+        {
+            armShape = Shape.TryGet(capi, armShapePath);
+        }
+
         if (armShape == null)
         {
             capi.Logger.Warning("[diagonalfences] {0} has no usable armShape ({1}), it won't connect diagonally", block.Code, armShapePath);
@@ -55,8 +61,11 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
     public MeshData WithDiagonalArms(MeshData fenceMesh, NeighbourLookup neighbourAt)
     {
+        bool hasArms = armMeshes.Count > 0;
+        if (!hasArms) return fenceMesh;
+
         List<Corner> corners = ConnectedCorners(neighbourAt).ToList();
-        if (corners.Count == 0 || armMeshes.Count == 0) return fenceMesh;
+        if (corners.Count == 0) return fenceMesh;
 
         // the vanilla mesh is shared by every fence of this type, so work on a copy
         MeshData mesh = fenceMesh.Clone();
@@ -73,7 +82,11 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
             .Select(corner => corner.Box(height))
             .ToArray();
 
-        return cornerBoxes.Length == 0 ? fenceBoxes : [.. fenceBoxes ?? [], .. cornerBoxes];
+        if (cornerBoxes.Length == 0) return fenceBoxes;
+
+        // a new array: the vanilla one is shared by every fence of this type
+        Cuboidf[] vanillaBoxes = fenceBoxes ?? [];
+        return [.. vanillaBoxes, .. cornerBoxes];
     }
 
     public override string GetPlacedBlockInfo(IWorldAccessor world, BlockPos pos, IPlayer forPlayer)
@@ -84,7 +97,9 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
             .Select(corner => corner.Code)
             .ToList();
 
-        return "Diagonals: " + (corners.Count == 0 ? "none" : string.Join(", ", corners));
+        if (corners.Count == 0) return "Diagonals: none";
+
+        return "Diagonals: " + string.Join(", ", corners);
     }
 
     public IEnumerable<Corner> ConnectedCorners(IBlockAccessor world, BlockPos pos)
@@ -93,25 +108,43 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     }
 
     /// <summary>
-    /// A corner connects when the neighbour is also a diagonal fence and neither side
-    /// next to that corner is already connected, so an L shape stays an L instead of a triangle.
+    /// A corner connects only when both fences agree: the neighbour there is a diagonal fence
+    /// and each of the two can connect towards the other. Otherwise one side would draw half a link.
     /// </summary>
     private IEnumerable<Corner> ConnectedCorners(NeighbourLookup neighbourAt)
     {
-        return Corner.All.Where(corner =>
-            !IsConnectedTowards(corner.NorthOrSouth) &&
-            !IsConnectedTowards(corner.EastOrWest) &&
-            IsDiagonalFence(neighbourAt(corner)));
+        foreach (Corner corner in Corner.All)
+        {
+            if (!CanConnectTowards(corner)) continue;
+
+            Block neighbourBlock = neighbourAt(corner);
+            var neighbour = neighbourBlock?.GetBehavior<BlockBehaviorDiagonalFence>();
+            if (neighbour == null) continue;
+
+            if (!neighbour.CanConnectTowards(corner.Opposite)) continue;
+
+            yield return corner;
+        }
+    }
+
+    // Not when a side next to that corner is already connected, so an L shape stays an L instead of a triangle
+    private bool CanConnectTowards(Corner corner)
+    {
+        bool northOrSouthConnected = IsConnectedTowards(corner.NorthOrSouth);
+        bool eastOrWestConnected = IsConnectedTowards(corner.EastOrWest);
+
+        return !northOrSouthConnected && !eastOrWestConnected;
     }
 
     // Vanilla stores its connections in the "type" variant: "ns", "new", "empty" ...
     private bool IsConnectedTowards(BlockFacing side)
     {
         string connections = block.Variant["type"];
-        return connections != "empty" && connections.Contains(side.Code[0]);
-    }
+        if (connections == "empty") return false;
 
-    private static bool IsDiagonalFence(Block block) => block?.HasBehavior<BlockBehaviorDiagonalFence>() == true;
+        char sideLetter = side.Code[0];
+        return connections.Contains(sideLetter);
+    }
 
     public override void OnBlockPlaced(IWorldAccessor world, BlockPos blockPos, ref EnumHandling handling)
     {

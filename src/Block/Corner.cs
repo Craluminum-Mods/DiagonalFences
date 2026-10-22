@@ -29,10 +29,27 @@ public class Corner
         ArmRotation = armRotation;
     }
 
+    /// <summary>The corner pointing the other way, e.g. south-west for north-east.</summary>
+    public Corner Opposite
+    {
+        get
+        {
+            if (this == NorthEast) return SouthWest;
+            if (this == SouthWest) return NorthEast;
+            if (this == SouthEast) return NorthWest;
+            return SouthEast;
+        }
+    }
+
     /// <summary>Short name like "ne" or "sw".</summary>
     public string Code => $"{NorthOrSouth.Code[0]}{EastOrWest.Code[0]}";
 
-    public BlockPos NeighbourOf(BlockPos pos) => pos.AddCopy(NorthOrSouth).Add(EastOrWest, 1);
+    public BlockPos NeighbourOf(BlockPos pos)
+    {
+        BlockPos neighbour = pos.AddCopy(NorthOrSouth);
+        neighbour.Add(EastOrWest, 1);
+        return neighbour;
+    }
 
     /// <summary>
     /// A box filling this corner of the block. It touches the post and the neighbour's
