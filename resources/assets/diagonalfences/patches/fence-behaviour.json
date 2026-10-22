@@ -3,7 +3,10 @@
         "op": "add",
         "path": "/behaviors/-",
         "value": {
-            "name": "DiagonalFence"
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/wood/fence/diagonal-arm"
+            }
         },
         "file": "game:blocktypes/wood/woodtyped/fence-free.json"
     },
@@ -11,8 +14,44 @@
         "op": "add",
         "path": "/behaviors/-",
         "value": {
-            "name": "DiagonalFence"
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/wood/fence/snow-diagonal-arm"
+            }
         },
         "file": "game:blocktypes/wood/woodtyped/fence-snow.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/wood/fence/bamboo/diagonal-arm",
+                "cardinalOvershootShape": "diagonalfences:block/wood/fence/bamboo/cardinal-overshoot"
+            }
+        },
+        "file": "game:blocktypes/wood/fence-bamboo.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": [
+                    "diagonalfences:block/wood/fence/roughfence/diagonal-arm1",
+                    "diagonalfences:block/wood/fence/roughfence/diagonal-arm2",
+                    "diagonalfences:block/wood/fence/roughfence/diagonal-arm3",
+                    "diagonalfences:block/wood/fence/roughfence/diagonal-arm4"
+                ],
+                "snowArmShape": [
+                    "diagonalfences:block/wood/fence/roughfence/snow-diagonal-arm1",
+                    "diagonalfences:block/wood/fence/roughfence/snow-diagonal-arm2",
+                    "diagonalfences:block/wood/fence/roughfence/snow-diagonal-arm3"
+                ]
+            }
+        },
+        "file": "game:blocktypes/wood/woodtyped/roughhewnfence-free.json"
     }
 ]
