@@ -10,6 +10,7 @@ namespace DiagonalFences;
 /// <summary>
 /// Client side debug view, toggled with ".diagonalfences debug": lists the diagonal connections
 /// in a fence's block info and highlights the fences it connects to.
+/// ".diagonalfences snow on|off" are shortcuts for the vanilla snow accumulation debug commands.
 /// </summary>
 public class DiagonalFenceDebug
 {
@@ -34,7 +35,37 @@ public class DiagonalFenceDebug
             .BeginSubCommand("debug")
                 .WithDescription("Show or hide the diagonal connections of the fence you are looking at")
                 .HandleWith(_ => Toggle())
+            .EndSubCommand()
+            .BeginSubCommand("snow")
+                .WithDescription("Snow accumulation shortcuts for testing snowy fences")
+                .BeginSubCommand("on")
+                    .WithDescription("Cover the area around you in snow and keep it there")
+                    .HandleWith(_ => SnowOn())
+                .EndSubCommand()
+                .BeginSubCommand("off")
+                    .WithDescription("Let the weather take the snow away again")
+                    .HandleWith(_ => SnowOff())
+                .EndSubCommand()
             .EndSubCommand();
+    }
+
+    private TextCommandResult SnowOn()
+    {
+        RunServerCommand("/debug snowaccum off");
+        RunServerCommand("/debug snowaccum here 10");
+        return TextCommandResult.Success("Snow placed around you, the weather won't change it");
+    }
+
+    private TextCommandResult SnowOff()
+    {
+        RunServerCommand("/debug snowaccum on");
+        return TextCommandResult.Success("Snow is back to following the weather");
+    }
+
+    // Sent like a typed chat line, so the server runs it with the player's own privileges
+    private void RunServerCommand(string command)
+    {
+        capi.SendChatMessage(command);
     }
 
     private TextCommandResult Toggle()
