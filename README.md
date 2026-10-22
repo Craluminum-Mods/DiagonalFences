@@ -59,13 +59,9 @@ Add the behavior to the fence's blocktype, for example in `assets/<yourmod>/patc
   
 
 | Property | Required | What it is |
-
 |---|---|---|
-
 | `armShape` | yes | The arm model. A single shape, or a list of shapes: each fence then picks one from its position, like vanilla's random shape alternates. |
-
 | `snowArmShape` | no | Same, used when the fence's `cover` variant is `snow`. Meant for snowy blocktypes that `inheritFrom` the snow-free one and so share its behavior (the rough-hewn fence). A snowy blocktype with its own `behaviors` list gets its own patch entry with its own `armShape` instead (the wooden fence). |
-
 | `cardinalOvershootShape` | no | For fences whose rails cross at every joint (bamboo). Rails continuing a west connection past the centre; added to dead ends that also connect diagonally, since vanilla's dead-end shapes stop their rails at the centre. |
 
   
