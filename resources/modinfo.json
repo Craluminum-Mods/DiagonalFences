@@ -3,9 +3,10 @@
     "modid": "diagonalfences",
     "name": "Diagonal Fences",
     "authors": [
-        "Craluminum2413"
+        "Craluminum2413",
+        "Lazzeking"
     ],
-    "version": "0.0.2",
+    "version": "0.0.3",
     "side": "Universal",
     "dependencies": {
         "game": "1.22.0"
