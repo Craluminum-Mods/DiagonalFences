@@ -1,12 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net461</TargetFramework>
-		<LangVersion>11</LangVersion>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VINTAGE_STORY)' == ''">
+		<VINTAGE_STORY>/var/lib/flatpak/app/at.vintagestory.VintageStory/current/active/files/extra/vintagestory</VINTAGE_STORY>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(VINTAGE_STORY_DATA)' == ''">
+		<VINTAGE_STORY_DATA>$(HOME)/.var/app/at.vintagestory.VintageStory/config/VintagestoryData</VINTAGE_STORY_DATA>
 	</PropertyGroup>
 	
 	<ItemGroup>
         <Reference Include="Vintagestory">
-            <HintPath>$(VINTAGE_STORY)\Vintagestory.exe</HintPath>
+            <HintPath>$(VINTAGE_STORY)\Vintagestory.dll</HintPath>
             <Private>false</Private>
         </Reference>
         <Reference Include="VintagestoryAPI">
@@ -56,7 +64,27 @@
 		</None>
 	</ItemGroup>
 	
+	<UsingTask TaskName="ReadModVersion" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<ModInfoPath ParameterType="System.String" Required="true" />
+			<Version ParameterType="System.String" Output="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.IO" />
+			<Code Type="Fragment" Language="cs">
+				// "version": "x.y.z" -> take the text between the two quotes after the colon
+				var text = File.ReadAllText(ModInfoPath);
+				var colon = text.IndexOf(':', text.IndexOf("\"version\""));
+				var start = text.IndexOf('"', colon) + 1;
+				Version = text.Substring(start, text.IndexOf('"', start) - start);
+			</Code>
+		</Task>
+	</UsingTask>
+
 	<Target Name="Package" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'ReleaseToMods'">
-		<ZipDirectory DestinationFile="$(VINTAGE_STORY_DATA)/Mods/$(TargetName)-v0.0.1.zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
+		<ReadModVersion ModInfoPath="resources/modinfo.json">
+			<Output TaskParameter="Version" PropertyName="ModVersion" />
+		</ReadModVersion>
+		<ZipDirectory DestinationFile="$(VINTAGE_STORY_DATA)/Mods/$(TargetName)-v$(ModVersion).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
 	</Target>
 </Project>

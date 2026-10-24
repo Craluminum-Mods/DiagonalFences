@@ -6,11 +6,11 @@
 		"type": "clr",
 		"request": "launch",
 		"preLaunchTask": "Build (Debug)",
-		"program": "${env:VINTAGE_STORY}/Vintagestory.exe",
+		"program": "${env:VINTAGE_STORY}/Vintagestory.dll",
 		"args": [
 			"--playStyle" , "preset-surviveandbuild",
 			"--openWorld" , "modding test world",
-			"--addModPath", "${workspaceFolder}/bin/Debug/net461",
+			"--addModPath", "${workspaceFolder}/bin/Debug/net10.0",
 			"--addOrigin" , "${workspaceFolder}/resources/assets",
 		],
 		"console": "internalConsole",
