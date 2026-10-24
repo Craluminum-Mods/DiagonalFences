@@ -1,8 +1,23 @@
 {
 	"version": "0.2.0",
 	"configurations": [
-	{
-		"name": "Launch Client (.NET)",
+		{
+			"name": "Launch Windows Client (.NET)",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "Build (Debug)",
+			"program": "${env:VINTAGE_STORY}/Vintagestory.exe",
+			"args": [
+				"--playStyle" , "preset-surviveandbuild",
+				"--openWorld" , "modding test world",
+				"--addModPath", "${workspaceFolder}/bin/Debug/net10.0",
+				"--addOrigin" , "${workspaceFolder}/resources/assets",
+			],
+			"console": "internalConsole",
+			"internalConsoleOptions": "openOnSessionStart",
+		},
+		{
+		"name": "Launch Linux Client (.NET)",
 		"type": "clr",
 		"request": "launch",
 		"preLaunchTask": "Build (Debug)",

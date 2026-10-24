@@ -2,7 +2,7 @@ using HarmonyLib;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 
-[assembly: ModInfo("Diagonal Fences")]
+[assembly: ModInfo("Diagonal Fences", modID: "diagonalfences", Version = "0.0.3")]
 
 namespace DiagonalFences;
 
