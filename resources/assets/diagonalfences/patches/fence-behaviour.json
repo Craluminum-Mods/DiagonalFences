@@ -53,5 +53,20 @@
             }
         },
         "file": "game:blocktypes/wood/woodtyped/roughhewnfence-free.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": [
+                    "diagonalfences:block/wood/fence/wattle/diagonal-arm1",
+                    "diagonalfences:block/wood/fence/wattle/diagonal-arm2",
+                    "diagonalfences:block/wood/fence/wattle/diagonal-arm3"
+                ]
+            }
+        },
+        "file": "game:blocktypes/wood/wattlefence.json"
     }
 ]

@@ -104,10 +104,16 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
         var arms = new Dictionary<Corner, MeshData>();
         foreach (Corner corner in Corner.All)
         {
-            capi.Tesselator.TesselateShape(block, armShape, out MeshData arm, new Vec3f(0, corner.ArmRotation, 0));
-            arms[corner] = arm;
+            arms[corner] = Tesselate(capi, armShape, corner.ArmRotation);
         }
         return arms;
+    }
+
+    private MeshData Tesselate(ICoreClientAPI capi, Shape shape, float rotationY)
+    {
+        var textures = new ArmTextureSource(capi, block, shape);
+        capi.Tesselator.TesselateShape(block.Code.ToString(), shape, out MeshData mesh, textures, new Vec3f(0, rotationY, 0));
+        return mesh;
     }
 
     private void BuildCardinalOvershootMeshes(ICoreClientAPI capi)
@@ -123,8 +129,7 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
         foreach (BlockFacing side in BlockFacing.HORIZONTALS)
         {
-            capi.Tesselator.TesselateShape(block, overshootShape, out MeshData overshoot, new Vec3f(0, RotationFromWest(side), 0));
-            cardinalOvershootMeshes[side] = overshoot;
+            cardinalOvershootMeshes[side] = Tesselate(capi, overshootShape, RotationFromWest(side));
         }
     }
 
