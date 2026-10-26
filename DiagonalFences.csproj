@@ -11,6 +11,15 @@
 	<PropertyGroup Condition="'$(VINTAGE_STORY_DATA)' == ''">
 		<VINTAGE_STORY_DATA>$(HOME)/.var/app/at.vintagestory.VintageStory/config/VintagestoryData</VINTAGE_STORY_DATA>
 	</PropertyGroup>
+
+	<!-- Release packs a zip to upload, ReleaseToMods packs it straight into the game's Mods folder -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageFolder>$(MSBuildProjectDirectory)/bin/Release</PackageFolder>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'ReleaseToMods'">
+		<PackageFolder>$(VINTAGE_STORY_DATA)/Mods</PackageFolder>
+	</PropertyGroup>
 	
 	<ItemGroup>
         <Reference Include="Vintagestory">
@@ -56,7 +65,7 @@
         </Reference>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(Configuration)' == 'ReleaseToMods'">
+	<ItemGroup Condition="'$(PackageFolder)' != ''">
 		<None Include="*ICENSE" CopyToOutputDirectory="PreserveNewest" />
 		<None Include="resources/**">
 			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
@@ -81,10 +90,10 @@
 		</Task>
 	</UsingTask>
 
-	<Target Name="Package" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'ReleaseToMods'">
+	<Target Name="Package" AfterTargets="PostBuildEvent" Condition="'$(PackageFolder)' != ''">
 		<ReadModVersion ModInfoPath="resources/modinfo.json">
 			<Output TaskParameter="Version" PropertyName="ModVersion" />
 		</ReadModVersion>
-		<ZipDirectory DestinationFile="$(VINTAGE_STORY_DATA)/Mods/$(TargetName)-v$(ModVersion).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
+		<ZipDirectory DestinationFile="$(PackageFolder)/$(TargetName)-v$(ModVersion).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
 	</Target>
 </Project>
