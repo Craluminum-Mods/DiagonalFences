@@ -53,5 +53,68 @@
             }
         },
         "file": "game:blocktypes/wood/woodtyped/roughhewnfence-free.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": [
+                    "diagonalfences:block/wood/fence/wattle/diagonal-arm1",
+                    "diagonalfences:block/wood/fence/wattle/diagonal-arm2",
+                    "diagonalfences:block/wood/fence/wattle/diagonal-arm3"
+                ]
+            }
+        },
+        "file": "game:blocktypes/wood/wattlefence.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/stone/drystonefence/diagonal-arm",
+                "stackedArmShape": "diagonalfences:block/stone/drystonefence/diagonal-arm-stacked"
+            }
+        },
+        "file": "game:blocktypes/stone/drystonefence-free.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/stone/drystonefence/snow-diagonal-arm",
+                "stackedArmShape": "diagonalfences:block/stone/drystonefence/snow-diagonal-arm-stacked"
+            }
+        },
+        "file": "game:blocktypes/stone/drystonefence-snow.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/stone/fencecoral/diagonal-arm",
+                "stackedArmShape": "diagonalfences:block/stone/fencecoral/diagonal-arm-stacked"
+            }
+        },
+        "file": "game:blocktypes/stone/fence-coral-free.json"
+    },
+    {
+        "op": "add",
+        "path": "/behaviors/-",
+        "value": {
+            "name": "DiagonalFence",
+            "properties": {
+                "armShape": "diagonalfences:block/stone/fencecoral/snow-diagonal-arm",
+                "stackedArmShape": "diagonalfences:block/stone/fencecoral/snow-diagonal-arm-stacked"
+            }
+        },
+        "file": "game:blocktypes/stone/fence-coral-snow.json"
     }
 ]

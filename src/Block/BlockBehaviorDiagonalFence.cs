@@ -17,6 +17,8 @@ public delegate Block NeighbourLookup(Corner corner);
 ///   that each fence picks from by its position, like vanilla's random shapes.
 ///   "snowArmShape" (optional): same, used instead when the fence's cover is snow. For snowy
 ///   blocktypes that inherit this behavior from their snow-free one, like the rough-hewn fence.
+///   "stackedArmShape" (optional): same, used instead when another fence sits on top. For stone
+///   walls, which drop their capstones then to continue upwards.
 ///   "cardinalOvershootShape" (optional): rails continuing a west connection past the centre,
 ///   for fences like bamboo whose rails cross at every joint.
 /// </summary>
@@ -27,10 +29,15 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     public const float SelectionHeight = 1.0625f;
     public const float CollisionHeight = 1.3125f;
 
+    // A block is 1 tall, so this is 0.06 pixels: enough to break a tie between two faces, too little to see
+    private const float LiftPerCorner = 0.004f;
+
     private List<AssetLocation> armShapePaths = [];
     private List<AssetLocation> snowArmShapePaths = [];
+    private List<AssetLocation> stackedArmShapePaths = [];
     private AssetLocation cardinalOvershootShapePath;
-    private readonly List<Dictionary<Corner, MeshData>> armVariants = [];
+    private List<Dictionary<Corner, MeshData>> armVariants = [];
+    private List<Dictionary<Corner, MeshData>> stackedArmVariants = [];
     private readonly Dictionary<BlockFacing, MeshData> cardinalOvershootMeshes = new();
 
     public BlockBehaviorDiagonalFence(Block block) : base(block) { }
@@ -41,6 +48,7 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
         armShapePaths = ShapePaths(properties["armShape"]);
         snowArmShapePaths = ShapePaths(properties["snowArmShape"]);
+        stackedArmShapePaths = ShapePaths(properties["stackedArmShape"]);
         cardinalOvershootShapePath = ShapePath(properties["cardinalOvershootShape"].AsString());
     }
 
@@ -69,25 +77,32 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
     public void BuildArmMeshes(ICoreClientAPI capi)
     {
-        foreach (AssetLocation path in ArmShapePathsForThisFence())
-        {
-            Shape armShape = LoadShape(capi, path);
-            if (armShape == null)
-            {
-                capi.Logger.Warning("[diagonalfences] {0} can't load its armShape {1}", block.Code, path);
-                continue;
-            }
-
-            armVariants.Add(TesselateArms(capi, armShape));
-        }
-
+        armVariants = BuildArmVariants(capi, ArmShapePathsForThisFence());
         if (armVariants.Count == 0)
         {
             capi.Logger.Warning("[diagonalfences] {0} has no usable armShape, it won't connect diagonally", block.Code);
             return;
         }
 
+        stackedArmVariants = BuildArmVariants(capi, stackedArmShapePaths);
         BuildCardinalOvershootMeshes(capi);
+    }
+
+    private List<Dictionary<Corner, MeshData>> BuildArmVariants(ICoreClientAPI capi, List<AssetLocation> shapePaths)
+    {
+        var variants = new List<Dictionary<Corner, MeshData>>();
+        foreach (AssetLocation path in shapePaths)
+        {
+            Shape armShape = LoadShape(capi, path);
+            if (armShape == null)
+            {
+                capi.Logger.Warning("[diagonalfences] {0} can't load its arm shape {1}", block.Code, path);
+                continue;
+            }
+
+            variants.Add(TesselateArms(capi, armShape));
+        }
+        return variants;
     }
 
     private List<AssetLocation> ArmShapePathsForThisFence()
@@ -102,12 +117,25 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     private Dictionary<Corner, MeshData> TesselateArms(ICoreClientAPI capi, Shape armShape)
     {
         var arms = new Dictionary<Corner, MeshData>();
-        foreach (Corner corner in Corner.All)
+        for (int i = 0; i < Corner.All.Length; i++)
         {
-            capi.Tesselator.TesselateShape(block, armShape, out MeshData arm, new Vec3f(0, corner.ArmRotation, 0));
+            Corner corner = Corner.All[i];
+            MeshData arm = Tesselate(capi, armShape, corner.ArmRotation);
+
+            // Two arms of one fence overlap near its centre: thick walls would have their tops in the
+            // same plane there and flicker, so each corner sits a hair higher than the previous one
+            arm.Translate(0, i * LiftPerCorner, 0);
+
             arms[corner] = arm;
         }
         return arms;
+    }
+
+    private MeshData Tesselate(ICoreClientAPI capi, Shape shape, float rotationY)
+    {
+        var textures = new ArmTextureSource(capi, block, shape);
+        capi.Tesselator.TesselateShape(block.Code.ToString(), shape, out MeshData mesh, textures, new Vec3f(0, rotationY, 0));
+        return mesh;
     }
 
     private void BuildCardinalOvershootMeshes(ICoreClientAPI capi)
@@ -123,8 +151,7 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
         foreach (BlockFacing side in BlockFacing.HORIZONTALS)
         {
-            capi.Tesselator.TesselateShape(block, overshootShape, out MeshData overshoot, new Vec3f(0, RotationFromWest(side), 0));
-            cardinalOvershootMeshes[side] = overshoot;
+            cardinalOvershootMeshes[side] = Tesselate(capi, overshootShape, RotationFromWest(side));
         }
     }
 
@@ -144,7 +171,7 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
         return 0;
     }
 
-    public MeshData WithDiagonalArms(MeshData fenceMesh, NeighbourLookup neighbourAt, BlockPos pos)
+    public MeshData WithDiagonalArms(MeshData fenceMesh, NeighbourLookup neighbourAt, BlockPos pos, bool isStacked)
     {
         bool hasArms = armVariants.Count > 0;
         if (!hasArms) return fenceMesh;
@@ -152,7 +179,7 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
         List<Corner> corners = ConnectedCorners(neighbourAt).ToList();
         if (corners.Count == 0) return fenceMesh;
 
-        Dictionary<Corner, MeshData> arms = ArmVariantAt(pos);
+        Dictionary<Corner, MeshData> arms = ArmVariantAt(pos, isStacked);
 
         // the vanilla mesh is shared by every fence of this type, so work on a copy
         MeshData mesh = fenceMesh.Clone();
@@ -166,10 +193,15 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     }
 
     // Picked from the position like vanilla's random shapes, so a fence always keeps the same look
-    private Dictionary<Corner, MeshData> ArmVariantAt(BlockPos pos)
+    private Dictionary<Corner, MeshData> ArmVariantAt(BlockPos pos, bool isStacked)
     {
-        int variant = GameMath.MurmurHash3Mod(pos.X, pos.Y, pos.Z, armVariants.Count);
-        return armVariants[variant];
+        List<Dictionary<Corner, MeshData>> variants = armVariants;
+
+        bool hasStackedArms = stackedArmVariants.Count > 0;
+        if (isStacked && hasStackedArms) variants = stackedArmVariants;
+
+        int variant = GameMath.MurmurHash3Mod(pos.X, pos.Y, pos.Z, variants.Count);
+        return variants[variant];
     }
 
     // Vanilla's dead-end shapes stop their rails at the centre, so where a diagonal now joins

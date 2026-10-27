@@ -23,7 +23,8 @@ public static class AddDiagonalArmsToFenceMesh
         var diagonalFence = __instance.GetBehavior<BlockBehaviorDiagonalFence>();
         if (diagonalFence == null || chunkExtBlocks == null) return;
 
-        sourceMesh = diagonalFence.WithDiagonalArms(sourceMesh, corner => chunkExtBlocks[NeighbourIndex(extIndex3d, corner)], pos);
+        bool isStacked = IsStacked(chunkExtBlocks, extIndex3d);
+        sourceMesh = diagonalFence.WithDiagonalArms(sourceMesh, corner => chunkExtBlocks[NeighbourIndex(extIndex3d, corner)], pos, isStacked);
     }
 
     // chunkExtBlocks is the chunk+1 block border, MoveIndex is filled in by the game at runtime so we cant cache it.
@@ -32,6 +33,24 @@ public static class AddDiagonalArmsToFenceMesh
         return fenceIndex
             + TileSideEnum.MoveIndex[corner.NorthOrSouth.Index]
             + TileSideEnum.MoveIndex[corner.EastOrWest.Index];
+    }
+
+    // Same check stackable stone walls use to drop their capstones when another fence sits on top
+    private static bool IsStacked(Block[] chunkExtBlocks, int fenceIndex)
+    {
+        Block blockAbove = chunkExtBlocks[fenceIndex + TileSideEnum.MoveIndex[TileSideEnum.Up]];
+        return blockAbove is BlockFence;
+    }
+}
+
+// Stackable stone walls (drystone, coral) replace OnJsonTesselation without calling
+// the BlockFence one, so the patch above never runs for them: they need their own
+[HarmonyPatch(typeof(BlockFenceStackAware), nameof(BlockFenceStackAware.OnJsonTesselation))]
+public static class AddDiagonalArmsToStackableWallMesh
+{
+    public static void Postfix(BlockFenceStackAware __instance, ref MeshData sourceMesh, BlockPos pos, Block[] chunkExtBlocks, int extIndex3d)
+    {
+        AddDiagonalArmsToFenceMesh.Postfix(__instance, ref sourceMesh, pos, chunkExtBlocks, extIndex3d);
     }
 }
 

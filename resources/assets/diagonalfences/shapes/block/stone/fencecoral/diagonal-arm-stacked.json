@@ -1,0 +1,110 @@
+{
+	"editor": {
+		"allAngles": false,
+		"entityTextureMode": false
+	},
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textureSizes": {},
+	"textures": {
+		"wall": "game:block/stone/fencecoral/coral1",
+		"side": "game:block/stone/fencecoral/side"
+	},
+	"elements": [
+		{
+			"name": "origin",
+			"from": [
+				8.0,
+				0.0,
+				8.0
+			],
+			"to": [
+				8.0,
+				0.0,
+				8.0
+			],
+			"rotationOrigin": [
+				8.0,
+				0.0,
+				8.0
+			],
+			"faces": {},
+			"children": [
+				{
+					"name": "wall",
+					"from": [
+						-11.314,
+						0.0,
+						-2.0
+					],
+					"to": [
+						0.0,
+						16.0,
+						2.0
+					],
+					"faces": {
+						"north": {
+							"texture": "#wall",
+							"uv": [
+								4.686,
+								0.0,
+								16.0,
+								16.0
+							]
+						},
+						"east": {
+							"texture": "#wall",
+							"uv": [
+								10.5,
+								0.0,
+								6.5,
+								16.0
+							],
+							"autoUv": false
+						},
+						"south": {
+							"texture": "#wall",
+							"uv": [
+								0.0,
+								0.0,
+								11.314,
+								16.0
+							]
+						},
+						"west": {
+							"texture": "#side",
+							"uv": [
+								0.0,
+								0.0,
+								4.0,
+								16.0
+							]
+						},
+						"up": {
+							"texture": "#side",
+							"uv": [
+								5.0,
+								4.686,
+								9.0,
+								16.0
+							],
+							"rotation": 90
+						},
+						"down": {
+							"texture": "#side",
+							"uv": [
+								5.0,
+								0.0,
+								9.0,
+								11.314
+							],
+							"rotation": 90
+						}
+					},
+					"children": []
+				}
+			],
+			"rotationY": 225.0
+		}
+	]
+}
