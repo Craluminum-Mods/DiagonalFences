@@ -6,7 +6,7 @@
         "DanaCraluminum",
         "Lazzeking"
     ],
-    "version": "0.0.3",
+    "version": "1.0.0",
     "side": "Universal",
     "dependencies": {
         "game": "1.22.0"
