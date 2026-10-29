@@ -80,6 +80,8 @@ One arm, the piece between the fence's centre and the block corner. The mod turn
 
 -  **Point it north-east.** Converting a vanilla shape that points west (the one-sided `w` shape)? Turn its root element by 225° on Y around the block centre `[8, 0, 8]`.
 
+-  **Count that turn on vertical posts.** A post inside the arm ends up turned by 225° plus its own `rotationY` in the world, and the mod adds multiples of 90° for the other corners. So its `rotationY` is the turn you want in the world minus 225°: a post that should stand as a 45° diamond like vanilla's bamboo and wattle posts gets `0`, not `45`.
+
 -  **Reach the block corner.** From the centre to the corner is 11.32, use it so two neighbouring arms overlap a hair instead of leaving a gap.
 
 -  **Leave out the centre post.** The vanilla fence already draws it in every connection shape.
