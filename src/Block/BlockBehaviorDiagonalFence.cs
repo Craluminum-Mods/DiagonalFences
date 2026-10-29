@@ -21,6 +21,9 @@ public delegate Block NeighbourLookup(Corner corner);
 ///   walls, which drop their capstones then to continue upwards.
 ///   "cardinalOvershootShape" (optional): rails continuing a west connection past the centre,
 ///   for fences like bamboo whose rails cross at every joint.
+///   "diagonalPostRotation" (optional): degrees to turn the post of a fence that connects only
+///   diagonally, the arms stay as they are. The post may look turned next to diagonal rails
+///   compared to next to straight ones.
 /// </summary>
 public class BlockBehaviorDiagonalFence : BlockBehavior
 {
@@ -36,6 +39,10 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
     private List<AssetLocation> snowArmShapePaths = [];
     private List<AssetLocation> stackedArmShapePaths = [];
     private AssetLocation cardinalOvershootShapePath;
+    private float diagonalPostRotation;
+
+    // Meshes are in block units, 0 to 1
+    private static readonly Vec3f BlockCentre = new(0.5f, 0, 0.5f);
     private List<Dictionary<Corner, MeshData>> armVariants = [];
     private List<Dictionary<Corner, MeshData>> stackedArmVariants = [];
     private readonly Dictionary<BlockFacing, MeshData> cardinalOvershootMeshes = new();
@@ -50,6 +57,7 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
         snowArmShapePaths = ShapePaths(properties["snowArmShape"]);
         stackedArmShapePaths = ShapePaths(properties["stackedArmShape"]);
         cardinalOvershootShapePath = ShapePath(properties["cardinalOvershootShape"].AsString());
+        diagonalPostRotation = properties["diagonalPostRotation"].AsFloat(0);
     }
 
     private static List<AssetLocation> ShapePaths(JsonObject shapes)
@@ -183,6 +191,8 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
         // the vanilla mesh is shared by every fence of this type, so work on a copy
         MeshData mesh = fenceMesh.Clone();
+        TurnPostIfOnlyDiagonal(mesh);
+
         foreach (Corner corner in corners)
         {
             mesh.AddMeshData(arms[corner]);
@@ -190,6 +200,20 @@ public class BlockBehaviorDiagonalFence : BlockBehavior
 
         AddCardinalOvershoot(mesh);
         return mesh;
+    }
+
+    // A fence connecting only diagonally is drawn with its unconnected shape, which is just the post:
+    // turning the mesh before the arms are added turns only the post. With a straight connection the
+    // mesh has straight rails too, those must stay where they are.
+    private void TurnPostIfOnlyDiagonal(MeshData mesh)
+    {
+        bool hasPostRotation = diagonalPostRotation != 0;
+        if (!hasPostRotation) return;
+
+        bool hasStraightConnection = BlockFacing.HORIZONTALS.Any(IsConnectedTowards);
+        if (hasStraightConnection) return;
+
+        mesh.Rotate(BlockCentre, 0, diagonalPostRotation * GameMath.DEG2RAD, 0);
     }
 
     // Picked from the position like vanilla's random shapes, so a fence always keeps the same look
